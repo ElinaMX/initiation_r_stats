@@ -3,11 +3,11 @@ title: "Introduction à R"
 subtitle: "Statistique descriptive univariée et bivariée"
 description: "Master G2M, 2-4 septembre 2025" 
 author: 
+   
  - name: Elina Marveaux
    affiliation: Géographie-Cités, CNRS
  - name: Louis Laurian
    affiliation: UAR RIATE, CNRS
-   
 format:
   html:
     output-file: index.html
@@ -1641,6 +1641,13 @@ Nombre d’individus d’une population(N) ou d’une partie quelconque de cette
 
 $$N=\sum_{} i$$
 
+```{r}
+# Dans un dataframe, l'effectif correspond au nombre de lignes
+nrow(mtcars)
+```
+
+<br>
+
 [Variable (x) ou caractère]{.div_voc_title} Une variable est une information dont on recueille (ou observe ou mesure) la valeur sur chaque individu. On parle de variable parce que la valeur de l’information n’est pas la même d’un individu à l’autre. Une variable est quantitative (valeur numérique) ou qualitative :
 
 **Une variable est quantitative si elle est mesurable**. Ex : Un temps.
@@ -1664,6 +1671,15 @@ La distribution des individus selon une (ou deux) variables, est la répartition
 Rapport entre un effectif (*n*) particulier d’individus et l'effectif total (*N*).
 
 $$f(n)=\frac{n}{N}$$
+
+
+```{r}
+
+# Exemple de fréquence d'un sous-effectif par rapport à l'effectif total
+nrow(mtcars[mtcars$hp <= 100 ,]) / nrow(mtcars) * 100
+
+```
+
 :::
 
 ### Valeurs centrales
@@ -1676,9 +1692,31 @@ Valeur uniforme que devrait présenter chaque individu d’un ensemble (populati
 
 $$\bar{x}=\frac{\sum{xi}}{N}$$
 
+```{r}
+
+mean(mtcars$hp)
+
+```
+
+<br>
+
 [Mode]{.div_voc_title}
 
 Le mode (ou valeur dominante) est la valeur la plus représentée d'une variable quelconque dans une population donnée. Une répartition peut être uni-modale ou multimodale (bimodale, tri-modale…) si deux ou plusieurs valeurs de la variable considérée émergent également. Une distribution sans aucun mode est appelée distribution uniforme.
+
+
+```{r}
+
+# Mode = Valeurs qui a la fréquence la plus élévée
+result <- as.data.frame(table(mtcars$hp))
+
+# Trier les valeurs par leur fréquence -> order()
+result[order(result$Freq, decreasing = TRUE),]
+
+
+```
+
+<br>
 
 [Médiane, quartiles, déciles et centiles]{.div_voc_title}
 
@@ -1688,6 +1726,21 @@ Ces valeurs correspondent respectivement à une proportion de l'effectif des ind
 -   Quartiles : valeurs qui divisent la série statistique en quatre (Q1=25%, Q2=50%, Q3=75%)
 -   Déciles : valeurs qui divisent la série statistique en dix (10% à 90%)
 -   Centiles : valeurs qui divisent la série statistique en cent (1% à 99%)
+
+```{r}
+
+# Médiane
+median(mtcars$hp)
+
+# Quantiles
+quantile(mtcars$hp)
+
+# Déciles (quantiles de 10 en 10)
+quantile(mtcars$hp, probs = seq(0,1,0.1), na.rm = TRUE)
+
+
+```
+<br>
 :::
 
 ### Paramètres de dispersion
@@ -1698,13 +1751,44 @@ Ces valeurs correspondent respectivement à une proportion de l'effectif des ind
 
 Longueur de l'intervalle entre la valeur minimum et maximum.
 
+```{r}
+
+max(mtcars$hp) - min(mtcars$hp)
+
+```
+
+<br>
+
 [Intervalle interquartile]{.div_voc_title}
 
 Basé sur les quantiles, l’intervalle inter-quartile (Q3-Q1) est un paramètre de dispersion absolue qui correspond à l’étendue d'une distribution une fois que l’on a retiré les 25% des valeurs les plus faibles et les 25% des valeurs les plus fortes.
 
+```{r}
+
+quantile(mtcars$hp)[4] - quantile(mtcars$hp)[2]
+
+```
+
+<br>
+
 [Écart absolu moyen]{.div_voc_title}
 
 Moyenne de la valeur absolue des écarts à la moyenne. Autrement dit, c’est la distance moyenne à la moyenne.
+
+```{r}
+
+# 1. Calculer les écarts à la moyenne
+ecarts <- mtcars$hp - mean(mtcars$hp)
+
+# 2. Extraire la valeur absolue
+ecarts_abs <- abs(ecarts)
+
+# 3. Calculer la moyenne
+ecarts_abs_moy <- mean(ecarts_abs)
+
+```
+
+<br>
 
 [Écart absolu médian]{.div_voc_title}
 
@@ -1712,15 +1796,45 @@ Moyenne des écarts à la médiane.
 
 [Variance(σ2) et écart-type(σ)]{.div_voc_title}
 
-Indicateurs de la dispersion des valeurs des individus autour de la moyenne. La variance est la moyenne des carrés des écarts à la moyenne. L’écart-type est sa racine carrée. Ce sont des **paramètres de dispersion.**
+Indicateurs de la dispersion des valeurs des individus autour de la moyenne. La variance est la moyenne des carrés des écarts à la moyenne. L’écart-type est sa racine carrée. Ce sont des **paramètres de dispersion.** Attention, R calcule la variance en prenant en compte la **correction de Bessel**, en divisant les carrés des écarts à la moyenne par n-1 plutôt que par n, afin de simuler un échantillon.
 
 $$\sigma^x = \sqrt{ \frac{\sum_{i=1}^{n}(x_i - \mu)^2} {n}} $$
+
+```{r}
+
+# Calcul de la variance et de l'écart-type
+
+# 1. Calculer les écarts à la moyenne
+ecarts <- mtcars$hp - mean(mtcars$hp)
+
+# 2. Elever ces écarts au carré
+ecarts_sq <- ecarts * ecarts
+
+# 3. Calculer la moyenne
+variance <- mean(ecarts_sq)
+
+# 4. Calculer l'écart-type
+ecart_type <- sqrt(variance)
+
+# Ou bien utiliser les fonctions de R...
+variance <- var(mtcars$hp)
+ecart_type <- sd(mtcars$hp)
+
+```
 
 [Coefficient de variation]{.div_voc_title}
 
 Le coefficient de variation (CV) est le rapport de l'écart-type à la moyenne. Le coefficient de variation, également nommé écart type relatif, est une mesure de dispersion relative. Plus la valeur du coefficient de variation est élevée, plus la dispersion autour de la moyenne est grande. Il est généralement exprimé en pourcentage. Sans unité, il permet la comparaison de distributions de valeurs dont les échelles de mesure ne sont pas comparables.
 
 $$CV = \frac{\sigma }{\mu } $$
+
+```{r}
+
+# Calcul du coefficient de variation
+variation <- ecart_type / mean(mtcars$hp) * 100
+
+```
+
 :::
 
 ### Discrétiser une distribution
@@ -1841,44 +1955,16 @@ hist(mtcars$hp, breaks=12, probability = TRUE)
 
 ```
 
-### Les valeurs centrales
+### Les valeurs centrales : Moyenne, Médiane et Mode
 
 En plus de l'histogramme, **des résumés numériques (valeurs centrales, paramètres de dispersion absolue et relative) peuvent être calculés pour les variables quantitatives**.
 
 A noter que **le mode** peut être également calculé pour les variables **qualitatives ordinales et nominales**, et **la médiane** peut être calculé pour les variables **qualitatives ordinales**.
 
-#### Moyenne
-
-```{r vc_mean}
-
-mean(mtcars$hp)
-
-```
-
-#### Médiane
-
-```{r vc_med}
-
-median(mtcars$hp)
-
-```
-
-#### Mode
-
-```{r vc_conting}
-
-# Mode = Valeurs qui a la fréquence la plus élévée
-result <-  as.data.frame(table(mtcars$hp))
-
-# Trier les valeurs par leur fréquence -> order()
-result[order(result$Freq, decreasing = TRUE),]
-
-
-```
 
 ### Les paramètres de dispersions absolue
 
-Les **paramètres de dispersion absolue** se calculent uniquement sur les **variables quantitatives**.
+Les **paramètres de dispersion absolue** se calculent uniquement sur les **variables quantitatives**. Elles permettent de comparer des valeurs **dans la même unité de mesure** (ex : les notes d'un examen entre deux classes).
 
 #### Minimum
 
@@ -1936,6 +2022,11 @@ var(mtcars$hp)
 ```{r vc_sd}
 sd(mtcars$hp) 
 ```
+
+
+### Les paramètres de dispersions relative
+
+Les paramètres de dispersion relative permettent de comparer les dispersions de deux séries statistiques **d'unités de mesure différentes** (ex : les notes d'un examen et la vitesse observée de véhicules).
 
 #### Coefficient de variation (en %) -
 
@@ -2196,8 +2287,8 @@ C'est l’étude des relations entre deux variables, quantitatives et/ou qualita
 
 L’analyse d’une relation bivariée avec deux types de variables possibles se résume à trois cas :\
 1- Relation entre **deux variables qualitatives** (3.2)\
-2- Relation entre **une variable qualitative et une variable quantitative** (3.3)\
-3- Relation entre **deux variables quantitatives** (3.4)
+3- Relation entre **deux variables quantitatives** (3.3)
+2- Relation entre **une variable qualitative et une variable quantitative** (3.4)\
 
 [Test statistique]{.div_voc_title}
 
