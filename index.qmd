@@ -35,7 +35,7 @@ nocite: |
 link-citations: true
 ---
 
-```{r, eval=TRUE, include= TRUE, echo=FALSE, cache=TRUE}
+```{r init, eval=TRUE, include= TRUE, echo=FALSE, cache=TRUE}
 options("scipen" = 10)
 
 library('rvest')
@@ -164,7 +164,7 @@ Tout ce qui est créé et manipulé sous R est un objet. Ces objets permettent d
 
 Un objet peut être créé avec l'opérateur « assigner » (`<-`), une flèche composée du signe inférieur (`<`) accolée à un tiret (`-`). Si l'objet existe déjà, sa valeur précédente est remplacée par la nouvelle. La valeur renvoyée peut être le résultat d'une opération et/ou d'une fonction :
 
-```{r}
+```{r new_obj}
 n <- "chaîne de caractères"
 
 n
@@ -177,7 +177,7 @@ n
 
 **On peut également écrire une expression sans assigner son résultat ou sa valeur à un objet**, le résultat est alors affiché à l'écran mais n'est pas stocké dans un objet en mémoire :
 
-```{r}
+```{r operations}
 
 (10 + 2) * 5
 
@@ -190,7 +190,7 @@ Mon_objet <- (10 + 2) * 5
 
 Le logiciel R dispose de fonctions préprogrammées appelées **fonctions primitives ou basiques** et regroupées dans le package **base** qui est automatiquement chargé. Pour connaître toutes les fonctions primitives, utilisez la fonction [library(help = "base")]{.fonction}:
 
-```{r}
+```{r aide}
 
 library(help = "base")
 
@@ -208,7 +208,7 @@ library(help = "base")
 
 Exemple de fonctions permettant d'assigner ou de modifier la classe d'un objet :
 
-```{r, eval=FALSE}
+```{r ex_type_obj, eval=FALSE}
 
 # Les différentes fonctions permettant de convertir la classe de l'objet 'mon_objet' :
 as.vector(x='mon_objet')
@@ -220,7 +220,7 @@ as.factor(x='mon_objet')
 
 ```
 
-```{r, eval=TRUE}
+```{r ex_type_num, eval=TRUE}
 
 # Exemple
 mon_objet <- "20345"
@@ -237,7 +237,7 @@ Une fonction est paramétrable, ajustable à l'aide d'**arguments**. Très souve
 
 Exemple avec la fonction [mean()]{.fonction} :
 
-```{r, eval=TRUE}
+```{r ex_mean_na, eval=TRUE}
 
 notes <- c(11,13,15,17,10,8,14,13,12,15,19,NA)
 
@@ -248,7 +248,7 @@ mean(notes)
 
 La fonction [mean()]{.fonction} retourne NA car la série statistique présente une valeur manquante (NA pour *Not Available*). **L’argument na.rm (= FALSE par défaut) permet de ne pas prendre en compte les valeurs manquantes** :
 
-```{r, eval=TRUE}
+```{r ex_mean_na_rm, eval=TRUE}
 
 # na.rm (= FALSE par défault) permet de prendre en compte ou non les valeurs NA
 mean(notes, na.rm = TRUE)
@@ -261,7 +261,7 @@ En plus des valeurs *NA*, on trouve aussi des valeurs notées **NULL** ou encore
 
 L'utilisateur a également la possibilité de définir ses propres fonctions. Une fonction est mise dans une variable contenant un bloc d'instructions introduit par la commande [function()]{.fonction}. La syntaxe générale est :
 
-```{r}
+```{r ex_fun}
 
 nom_de_fonction <- function(arguments) { instructions }
 
@@ -269,7 +269,7 @@ nom_de_fonction <- function(arguments) { instructions }
 
 Exemple :
 
-```{r}
+```{r ex_fun_carre}
 
 # Ecriture une fonction
 carre <- function(x) {
@@ -292,7 +292,7 @@ carre(3)
 
 En plus des fonction primitives, des fonctions que vous pouvez vous même créer, **il est très simple d'utiliser des fonctions mises à disposition par l'intermédiaire de packages**. Pour cela, vous devez d'abord **installer le package et charger la library** :
 
-```{r, eval=FALSE}
+```{r ex_fun_pckg, eval=FALSE}
 
 # Installation du package
 install.packages("foreign")
@@ -310,7 +310,7 @@ read.dbf("D:/users/geographie/Documents/nom_fichier.dbf", as.is = FALSE)
 
 **Un vecteur permet de regrouper des éléments d'une même classe**.
 
-```{r }
+```{r type_vec}
 
 # Joindre des éléments dans un vecteur
 mon_vecteur <- c(1,2,3,4,5,6,7,8,9)
@@ -340,7 +340,7 @@ mon_vecteur[c(2,5)]
 
 Un data frame est utilisé pour stocker une table de données. Il s'agit d'une liste de vecteurs de même longueur.
 
-```{r}
+```{r type_df}
 
 # Construction de trois vecteurs
 personne <- c('John Doe','Peter Gynn','Jolie Hope','John snow')
@@ -374,7 +374,7 @@ mon_tableau$personne[4]
 
 **Une liste est un vecteur d'objets**. Elle permet de stocker des valeurs de différents types dans un seul objet.
 
-```{r}
+```{r type_list}
 
 ma_fonction <- function() {cat("hello")}
 mon_vecteur1 <- c('John Doe','Peter Gynn','Jolie Hope','John snow')
@@ -406,7 +406,7 @@ ma_liste[[3]][2]
 
 Une matrice est un **tableau d'objet de même type, à double entrée**. Le remplissage s'effectue en colonnes.
 
-```{r}
+```{r type_mat}
 
 ma_matrice <- matrix(c(1:16), nrow=4, ncol=4) 
 
@@ -417,7 +417,7 @@ ma_matrice[4,3]
 
 De nombreuses opérations et **fonctions** primitives sont applicables à cet objet. Quelques exemples :
 
-```{r}
+```{r ex_fun_mat}
 
 # Multiplication de matrice, élément par élément.
 ma_matrice * ma_matrice 
@@ -456,7 +456,7 @@ La colonne contenant les géométries peut quant à elle prendre les types de g�
 
 Cette colonne se prête aux géotraitements typiques d'un SIG comme le buffer, l'intersection ou l'agrégation.
 
-```{r}
+```{r type_sf}
 
 # Création d'un vecteur de nombre (1 à 10)
 ID <- seq(1:10)
@@ -489,7 +489,7 @@ plot(st_geometry(mes_donnees_SF))
 
 **Un facteur (factor) est un vecteur contenant uniquement certaines valeurs prédéfinies**. Les valeurs pré-définies sont appelées des **levels**.
 
-```{r}
+```{r type_factor}
 
 
 my_factor <- sample(x = c("North", "East", "South", "West"), size = 13, replace = TRUE)
@@ -524,7 +524,7 @@ my_factor[7:13, drop=TRUE]
 
 ### Arithmétiques
 
-```{r}
+```{r ope_ari}
 
 # Addition
 5 + 5
@@ -545,7 +545,7 @@ my_factor[7:13, drop=TRUE]
 
 ### Relationnel
 
-```{r, eval=FALSE}
+```{r ope_rel, eval=FALSE}
 
   <    # inférieur à 
   >    # supérieur à 
@@ -557,7 +557,7 @@ my_factor[7:13, drop=TRUE]
   
 ```
 
-```{r}
+```{r ex_ope_rel}
 
 # Exemple
 5 == 5
@@ -568,7 +568,7 @@ c(1,2,3) %in% c(2,7,5)
 
 ### Logique
 
-```{r, eval=FALSE}
+```{r ope_log, eval=FALSE}
 
   !         # Négation
   &, &&     # ET 
@@ -581,7 +581,7 @@ c(1,2,3) %in% c(2,7,5)
 
 ```
 
-```{r}
+```{r ex_ope_log}
 
 # Exemples
 
@@ -611,7 +611,7 @@ Il est également possible d'installer des packages en cours de développement e
 
 Installer un package en langage R :
 
-```{r eval=FALSE}
+```{r inst_pckg, eval=FALSE}
 
 # Pour les packages disponibles sur le CRAN :
 install.packages("mapsf") # Installer un package
@@ -634,7 +634,7 @@ install_github("riatelab/MTA")
 
 Une fois installé, **un package doit être chargé à chaque nouvelle session de R pour être utilisé**. A chaque package est systématiquement associée de la documentation permettant de comprendre son contenu et aider à sa prise en main.
 
-```{r,eval=FALSE}
+```{r load_pckg, eval=FALSE}
 
 # Charger un package pour en utiliser ses fonctions
 library(mapsf)  
@@ -653,7 +653,7 @@ data(Nom_objet)
 
 **Pour supprimer un package**, vous pouvez utiliser la fonction suivante :
 
-```{r,eval=FALSE}
+```{r del_pckg, eval=FALSE}
 
 remove.packages("mapsf")
 
@@ -667,11 +667,11 @@ Il y a plusieurs façons d'obtenir de l'aide avec R studio. **Vous pouvez utilis
 
 Il est possible d'**obtenir de la documentation en utilisant des fonctions**, Ex :
 
-```{r, eval=TRUE, include=FALSE}
+```{r load_local_mapsf, eval=TRUE, include=FALSE}
 library(mapsf)  
 ```
 
-```{r,eval=FALSE}
+```{r help_pckg,eval=FALSE}
 
 # Documentation des packages
 help("mapsf") 
@@ -714,7 +714,7 @@ Voir par exemple :
 -   Eviter les lignes de plus de 80 caractères.\
 -   Utiliser un espace avant et après les opérateurs :
 
-```{r, eval=FALSE}
+```{r regles_code, eval=FALSE}
 
 # Préférez
 x  <-  12
@@ -731,7 +731,7 @@ average<-mean(feet/12+inches,na.rm=TRUE)
 
 -   Eviter les lignes avec plus d'une opération :
 
-```{r, eval=FALSE}
+```{r regle_code_2, eval=FALSE}
 
 ### Il est possible d'écrire plusieurs opération sur une me ligne, en les séparant d'un ;
 # Exemple
@@ -749,7 +749,7 @@ sd(notes)
 
 **L'intégration de commentaire dans le code est également une pratique appréciée**. Pour cela, **insérer un \# en début de ligne**.
 
-```{r, eval=FALSE}
+```{r regle_com, eval=FALSE}
 
 # Les caractères suivants seront considérés comme du commentaire
 # Vous pouvez écrire ce que vous voulez, mais toujours précédé d'un #
@@ -768,7 +768,7 @@ mean(c(1,7,3,2,8,9,2,3))
 
 ::: exercice
 A)  **Créez un nouveau projet** à l'emplacement de votre choix ([cf. *Les projets*](#les-projets)).\
-B)  **Téléchargez** [**ces données**](https://github.com/HuguesPecout/Initiation_R_stats/raw/main/data.zip) de recensement **(INSEE, 2016)** pour les communes de la Martinique en 2011 et 2016, associées à une couche géographique **(IGN - BD ADMIN EXPRESS, 2016)**.
+B)  **Téléchargez** [**ces données**](https://github.com/HuguesPecout/Initiation_R_stats/raw/main/data/data.zip) de recensement **(INSEE, 2016)** pour les communes de la Martinique en 2011 et 2016, associées à une couche géographique **(IGN - BD ADMIN EXPRESS, 2016)**.
 C)  **Décompressez l'archive** à la racine de votre répertoire projet.\
 D)  **Créez un nouveau ficher .R** (*File \> New File \> R Script*), puis **enregistrez-le**. Vous pourrez ainsi écrire du code R dans ce fichier, et sauvegarder votre travail.
 :::
@@ -779,7 +779,7 @@ De nombreuses [fonctions]{.fonction} (primitives ou non) peuvent être utilisée
 
 ### Import
 
-```{r,eval=FALSE}
+```{r import_data,eval=FALSE}
 
 ### IMPORTER
 read.table() # Importer une table (format multiple)
@@ -795,7 +795,7 @@ Pour que l'import soit correct, il est souvent nécessaire de renseigner un cert
 
 **header** = valeur logique qui indique si la première ligne du fichier importé contient les noms des variables. **sep** = Indique le séparateur de champ du fichier. **stringsAsFactor** = Le données de type caractère sont transformées (par défaut) en facteur. **Encoding** = Indique l'encodage utilisé pour les chaînes de caractères.
 
-```{r,eval=FALSE}
+```{r ex_import_error, eval=FALSE}
 
 # Import d'un fichier 
 # not run
@@ -806,7 +806,7 @@ stringsAsFactors=FALSE, encoding="UTF-8")
 
 Il est également possible de télécharger un fichier en ligne, avec la fonction suivante :
 
-```{r,eval=FALSE}
+```{r ex_dl_file, eval=FALSE}
 
 # Télécharger un fichier
 download.file()
@@ -818,7 +818,7 @@ download.file()
 
 ### Export
 
-```{r,eval=FALSE}
+```{r export_data,eval=FALSE}
 
 ### EXPORTER
 
@@ -843,7 +843,7 @@ st_write()
 
 Les représentations graphiques peuvent également être exportées sous différents formats :
 
-```{r,eval=FALSE}
+```{r export_img, eval=FALSE}
 
 ## Figures plot() 
 # format jpeg
@@ -862,10 +862,10 @@ dev.off()
 
 ### Exercice
 
-::: exercice
+::: exercice 
 **Importez le fichier** *INSEE_COM_972.csv*, et **stockez-le dans un objet**.
 
-```{r eval=FALSE}
+```{r exo_read_insee, eval=FALSE}
 
 # Fonctions possibles
 read.csv()
@@ -883,14 +883,14 @@ stringsAsFactors=FALSE
 
 Pour les exemples ci-dessous, l'objet dataframe *mtcars* est utilisé. Il s'agit d'un exemple de data frame implanté dans R.
 
-```{r, eval=FALSE}
+```{r view_mtcars, eval=FALSE}
 
 # Pour visualiser le data frame
 View(mtcars)
 
 ```
 
-```{r}
+```{r str_mtcars}
 
 # Pour un aperçu rapide dans la console
 str(mtcars)
@@ -901,7 +901,7 @@ Ces deux fonctions sont directement accessibles en clic-bouton depuis l'interfac
 
 ![](figures/mtcars.png)
 
-```{r}
+```{r info_df}
 # Visualiser les premiers éléments (6 par défaut) de l'objet
 head(mtcars)
 # Visualiser les derniers éléments (6 par défaut) de l'objet
@@ -932,7 +932,7 @@ nrow(mtcars)
 ::: exercice
 **Visualisez et interrogez votre data frame**, en ligne de code ET depuis l'interface RStudio.
 
-```{r eval=FALSE}
+```{r exo_info_df, eval=FALSE}
 
 # Fonctions possibles :
 View()
@@ -946,9 +946,10 @@ colnames()
 
 ```
 
-**Vérifiez le type de données stocké pour chaque variable**. Si nécessaire, **corrigez la classe de données des variables** '*CODGEO*, '*DEP*', '*REG*', '*CATAEU2010*' **de votre data frame comportant les données de recensement**. **N'oubliez pas d'assigner le résultat de la conversion :**
+**Vérifiez le type de données stocké pour chaque variable**. Si nécessaire, **corrigez la classe de données des variables** '*CODGEO*, '*DEP*', '*REG*', '*CATAEU2010*' **de votre data frame comportant les données de recensement**.  
+**N'oubliez pas d'assigner le résultat de la conversion :**
 
-```{r eval=FALSE}
+```{r exo_conv_col, eval=FALSE}
 
 # Convertissez le type de données d'une variable
 Mon_Objet$xxxx <- as.character(Mon_Objet$xxxx)
@@ -957,7 +958,7 @@ Mon_Objet$xxxx <- as.character(Mon_Objet$xxxx)
 
 **Créez une nouvelle variable contenant la part de la population âgée de 0 à 14 ans en 2016** (P16_POP0014 / P16_POP \* 100) :
 
-```{r eval=FALSE}
+```{r exo_add_col, eval=FALSE}
 
 # Assigner les valeur dans une nouvelle colonne
 mon_tableau$new_var <- ... ?
@@ -971,7 +972,7 @@ Comme pour toutes les opérations dans R, **il existe plusieurs solutions**. Exe
 
 ### Méthode 1 - Base
 
-```{r}
+```{r ex_sel}
 
 # df[ligne, colonne]
 mtcars[mtcars$cyl==4 & mtcars$wt > 3,  c(1:7) ]
@@ -980,7 +981,7 @@ mtcars[mtcars$cyl==4 & mtcars$wt > 3,  c(1:7) ]
 
 ### Méthode 2 - Fonction primitive
 
-```{r}
+```{r ex_del_col}
 
 # subset()
 subset(mtcars, cyl==4 & mtcars$wt > 3, select=c(1:7))
@@ -989,7 +990,7 @@ subset(mtcars, cyl==4 & mtcars$wt > 3, select=c(1:7))
 
 ### Méthode 3 - Package dplyr
 
-```{r}
+```{r ex_sel_dplyr}
 
 # filter() du package 'dplyr'
 library(dplyr)
@@ -1005,7 +1006,7 @@ mtcars %>%
 ::: exercice
 **Sélectionnez les communes isolées hors influence des pôles** (CATAEU2010 == 400) **de plus de 2000 habitants** en 2016 (P16_POP).
 
-```{r eval=FALSE}
+```{r exo_sel, eval=FALSE}
 
 # Une de solution possible :
 tableau[tableau$CATAEU2010==400 & ... , ]
@@ -1019,7 +1020,7 @@ tableau[tableau$CATAEU2010==400 & ... , ]
 
 La jointure, opération classique en géomatique, est très facile à réaliser avec R.
 
-```{r}
+```{r join}
 
 # Construction de deux dataframe avec un identifiant commun
 ID <- c("1", "2", "3", "4")
@@ -1045,7 +1046,7 @@ merge(mon_tab_1, mon_tab_2, by="ID")
 ::: exercice
 **Chargez la couche géographique** *martinique.shp*, et **stockez-le dans un objet**.
 
-```{r eval=FALSE}
+```{r exo_load_sf, eval=FALSE}
 
 # Utilisez la fonction du package sf :
 st_read()
@@ -1054,7 +1055,7 @@ st_read()
 
 **Réalisez une jointure entre la couche géographique et votre tableau de données**, en assignant le résultat dans un nouvel objet. Utilisez le code INSEE des communes pour la jointure
 
-```{r eval=FALSE}
+```{r exo_join, eval=FALSE}
 
 # Pour réaliser une jointure, utilisez la fonction :
 merge()
@@ -1072,7 +1073,7 @@ by.y=
 
 ### Méthode 1 - Fonction primitive
 
-```{r}
+```{r aggregate}
 
 # Regroupement des lignes en fonction des valeurs des variables "disp" et "cyl"
 # + somme des valeurs de la variable "vs"
@@ -1082,7 +1083,7 @@ aggregate(data = mtcars, disp ~ cyl + vs, sum)
 
 ### Méthode 2 - Package tidyverse
 
-```{r}
+```{r group_by}
 
 # Package dplyr
 # Permet facilement le calcul sur plusieurs champs
@@ -1097,7 +1098,7 @@ mtcars %>%
 
 ### Méthode 2 - Package data.table
 
-```{r}
+```{r group_dt}
 
 library(data.table)
 mtcars2 <- data.table(mtcars)
@@ -1114,7 +1115,7 @@ Le package [data.table]{.package} est plutôt utilisé pour les gros volumes de 
 ::: exercice
 **Commencez par calculer la somme de la population totale de la Martinique** à l'aide la fonction suivante :
 
-```{r eval=FALSE}
+```{r exo_sum, eval=FALSE}
 
 sum()
 
@@ -1122,7 +1123,7 @@ sum()
 
 **Puis calculez la somme de la population 2016 pour chaque catégorie de commune du zonage en aire urbaine de 2010** (CATAEU2010):
 
-```{r eval=FALSE}
+```{r exo_aggregate, eval=FALSE}
 
 # Une solution
 aggregate()
@@ -1137,7 +1138,7 @@ P16_POP ~ CATAEU2010
 
 Deux fonctions primitives sont à connaître pour trier des valeurs :
 
-```{r}
+```{r sort_data}
 
 # Fonction sort()
 my_vector <- c(7,9,4,5,2,3,6,1)
@@ -1156,7 +1157,7 @@ mtcars[order(mtcars$cyl, mtcars$disp, decreasing = TRUE), ]
 ::: exercice
 **Triez votre tableau de données en fonction de la population de 2016** (croissant) :
 
-```{r eval=FALSE}
+```{r exo_sort_data, eval=FALSE}
 
 order()
 
@@ -1167,7 +1168,7 @@ order()
 
 **Un test conditionnel permet d'exécuter une portion de code ou non en fonction du résultat de variables booléennes**.
 
-```{r, eval=FALSE}
+```{r test_if, eval=FALSE}
 
 # Test simple
 if (condition){action}
@@ -1181,7 +1182,7 @@ if (condition){
 
 ```
 
-```{r}
+```{r ex_test_if}
 # Exemple
 x <- "chaîneDeCaractères"
 x <- TRUE
@@ -1209,9 +1210,10 @@ if (is.character(x)){
 ### Exercice
 
 ::: exercice
+
 **Testez si votre tableau de données est bien un objet dataframe**, et **affichez le résultat dans la console** avec la fonction [print()]{.fonction} :
 
-```{r eval=FALSE}
+```{r exo_test_if, eval=FALSE}
 
 if (is.data.frame()) { print() } else { print() }
 
@@ -1222,7 +1224,7 @@ if (is.data.frame()) { print() } else { print() }
 
 **Une boucle est une série d'instructions exécutées jusqu'à ce qu'un résultat particulier soit obtenu ou qu'une condition pré-déterminée soit remplie**. Les boucles permettent de ré-utiliser des séries d'instructions et permettent ainsi de limiter le nombre d'instructions.
 
-```{r, eval=FALSE}
+```{r test_for, eval=FALSE}
 
 # Structure d'une boucle
 for (variable in vecteur) {
@@ -1231,7 +1233,7 @@ for (variable in vecteur) {
 
 ```
 
-```{r}
+```{r ex_test_for}
 
 # Exemple
 for (i in 1:5) {
@@ -1244,7 +1246,7 @@ for (i in 1:5) {
 
 L'utilisation d'une boucle est très fréquente en traitement de données. Une boucle peut permettre d'effectuer des traitements sur des objets de structure multidimensionnelle (data frame, matrice, array, sf...). Mais pour cela, la boucle for n'est pas la technique optimale. Les concepteurs de R ont développé des fonctions spécialement prévues à cet effet.
 
-```{r}
+```{r apply}
 
 # Appliquer une fonction sur les lignes :
 apply(mtcars,1,mean)
@@ -1268,7 +1270,7 @@ De nombreuses fonctions primitives existent pour gérer les chaînes de caractè
 
 ### Concaténer
 
-```{r}
+```{r ex_paste}
 
 # Concaténation de chaîne de caractère, AVEC séparateur
 paste("Champions", "du", "monde", sep=" ")
@@ -1280,19 +1282,19 @@ paste0("Champions", "du", "monde")
 
 ### Gérer la casse
 
-```{r, eval=TRUE}
+```{r casse, eval=TRUE}
 
 # Gérer la casse
 text <- "champion Du MONDEEEEEE !"
 
 ```
 
-```{r, eval=TRUE}
+```{r ex_lower, eval=TRUE}
 # tout en minuscule
 tolower(text)
 ```
 
-```{r, eval=TRUE}
+```{r ex_upper, eval=TRUE}
 # tout en majuscule
 toupper(text)
 
@@ -1300,7 +1302,7 @@ toupper(text)
 
 ### Compter
 
-```{r, eval=TRUE}
+```{r nb_char, eval=TRUE}
 
 # Nombre de caractères
 nchar(text)
@@ -1309,14 +1311,14 @@ nchar(text)
 
 ### Modifier
 
-```{r, eval=TRUE}
+```{r split_char, eval=TRUE}
 
 # Scinder une chaîne en fonction d'un caractère
 strsplit(text, split = " ", fixed = TRUE)
 
 ```
 
-```{r, eval=TRUE}
+```{r gsub, eval=TRUE}
 
 # Remplacer un (ou plusieurs) caractère(s) par un autre
 gsub("ion", "ionne", text)
@@ -1327,7 +1329,7 @@ gsub("ion", "ionne", text)
 
 Si vous souhaitez réaliser des traitements complexes sur des chaînes de caractères, vous pouvez utiliser la **librairie de référence** [stringr]{.package} qui vous permettra de réaliser des opérations plus complexes. Exemples :
 
-```{r, eval=FALSE}
+```{r stringr, eval=FALSE}
 
 library(stringr)
 
@@ -1358,7 +1360,7 @@ Il est possible de combiner l'**utilisation des expressions régulières avec to
 
 **Les expressions régulières**, ou plus communément REGEX (contraction de *regular expression*) **permettent de représenter des modèles de chaînes de caractères. Ce sont des outils très puissants et très utilisés : on peut les retrouver dans de nombreux langages comme le PHP, MySQL, Javascript...** Si cet outil est très puissant, il est relativement difficile à appréhender au début car les expressions régulières peuvent prendre des formes complexe à interpréter. Ex :
 
-```{r}
+```{r ex_regex}
 
 # EXEMPLE d'utilisation d'expression régulière (regex)
 
@@ -1386,7 +1388,7 @@ grep(regex, emails_list, ignore.case=TRUE)
 ::: exercice
 **Créez une nouvelle colonne** "***NOM***" dans votre objet [sf]{.package}, pour y stocker **le nom des communes en lettre CAPITALE**.
 
-```{r eval=FALSE}
+```{r exo_upper, eval=FALSE}
 
 # Fonction à utiliser :
 toupper()
@@ -1400,7 +1402,7 @@ toupper()
 
 Plusieurs fonctions primitives permettent de réaliser des graphiques :
 
-```{r, eval=FALSE}
+```{r graph, eval=FALSE}
 
 plot()
 hist()
@@ -1413,7 +1415,7 @@ legend()
 
 ```
 
-```{r}
+```{r ex_hist}
 
 # Exemple
 hist(mtcars$mpg, 
@@ -1441,7 +1443,7 @@ Toute **une série d'arguments permet d'ajuster les représentations**, exemple 
 
 **Il est possible d'afficher plusieurs graphiques en même temps**, à l'aide de la fonction [par()]{.fonction}. Ex :
 
-```{r}
+```{r ex_par}
 
 # Division de la fenêtre graphique en 2 lignes et 2 colonnes
 par(mfrow=c(2,2))
@@ -1458,7 +1460,7 @@ boxplot(mtcars$wt, main="Graph 4")
 
 La fonction [plot()]{.fonction} permet l'affichage d'un objet [sf]{.package} (couche géographique) dans la fenêtre graphique.
 
-```{r}
+```{r ex_mapsf}
 
 library(mapsf)
 
@@ -1472,7 +1474,7 @@ plot(mtq)
 Attention, le fonction [plot()]{.fonction} réalise par défaut une représentation pour chaque variable de l'objet [sf]{.package}.\
 **Pour afficher uniquement la géométrie, il est nécessaire d'utiliser la fonction** [st_geometry()]{.fonction} du package [sf]{.package} :
 
-```{r}
+```{r ex_sf_plot}
 
 library(sf)
 
@@ -1483,7 +1485,7 @@ plot(st_geometry(mtq))
 
 Pour **représenter les valeurs d'une variable de votre objet [sf]{.package}**, utilisez la syntaxe suivante :
 
-```{r}
+```{r ex_plot_var}
 
 # Représentation visuelle
 plot(mtq["POP"])
@@ -1498,7 +1500,7 @@ Il existe de **très nombreux** packages **pour réaliser des représentations g
 
 **Le plus célèbre est** [ggplot2]{.package}. Il permet de réaliser de très nombreux types de représentation graphique. Ce package est développé par Hadley Wickham (Rstudio) et **fonctionne avec un syntaxe particulière basée sur la** ***grammaire des graphiques***, théorisée par **Leland Wilkinson**. Exemple :
 
-```{r}
+```{r ex_ggplot2}
 
 library(ggplot2)
 
@@ -1518,7 +1520,7 @@ ggplot(mpg, aes(cty)) +
 ::: exercice
 **Construisez un histogramme de la variable** '***C16_POP15P_CS7***' (nombre de retraités) .
 
-```{r eval=FALSE}
+```{r exo_hist, eval=FALSE}
 
 # Fonction à utiliser :
 hist()
@@ -1527,7 +1529,7 @@ hist()
 
 **Représentez les valeurs de cette variable en aplat de couleur sur la géométrie de votre objet [sf]{.package}**.
 
-```{r eval=FALSE}
+```{r exo_plot, eval=FALSE}
 
 # Fonction à utiliser :
 plot()
@@ -1539,7 +1541,7 @@ plot()
 
 Il est possible de supprimer tous les objets crées en cliquant sur l'icône `r knitr::include_graphics('figures/clear.png')` dans la fenêtre de l'espace de travail. Plusieurs fonctions permettent également de gérer les objets. En voici quelques-unes :
 
-```{r,eval=FALSE}
+```{r save_obj, eval=FALSE}
 
 # lister tous les objets crées
 ls()    
@@ -1560,7 +1562,7 @@ readRDS()
 
 Exemple pratique :
 
-```{r,eval=FALSE}
+```{r ex_save_obj, eval=FALSE}
 
 mon_objet <- c("un", "deux", "trois")
 
@@ -1580,7 +1582,7 @@ mon_objet_new <- readRDS("Nom_du_fichier")
 ::: exercice
 **Sauvegardez votre objet [sf]{.package} joint aux données de recensement dans le répertoire de votre projet Rstudio**.
 
-```{r eval=FALSE}
+```{r exo_save_obj, eval=FALSE}
 
 # Fonction à utiliser :
 saveRDS()
@@ -1589,7 +1591,7 @@ saveRDS()
 
 Puis, **supprimez tous les objets chargés dans votre environnement Rstudio**
 
-```{r eval=FALSE}
+```{r exo_del_obj, eval=FALSE}
 
 # Fonctions à utiliser :
 rm() et ls()
@@ -1598,7 +1600,7 @@ rm() et ls()
 
 Enfin, **rechargez l'objet enregistré en dur** dans votre environnement Rstudio:
 
-```{r eval=FALSE}
+```{r exo_read_obj, eval=FALSE}
 
 # Fonction à utiliser :
 readRDS()
@@ -1667,6 +1669,7 @@ $$f(n)=\frac{n}{N}$$
 ### Valeurs centrales
 
 ::: div_voc
+
 [Moyenne]{.div_voc_title}
 
 Valeur uniforme que devrait présenter chaque individu d’un ensemble (population ou échantillon) pour que le total de l’ensemble soit inchangé.
@@ -1690,6 +1693,7 @@ Ces valeurs correspondent respectivement à une proportion de l'effectif des ind
 ### Paramètres de dispersion
 
 ::: div_voc
+
 [Amplitude]{.div_voc_title}
 
 Longueur de l'intervalle entre la valeur minimum et maximum.
@@ -1722,17 +1726,20 @@ $$CV = \frac{\sigma }{\mu } $$
 ### Discrétiser une distribution
 
 ::: div_voc
+
 **Discrétiser revient à rendre discret des valeurs continues**. Cela consiste à classer les valeurs quantitatives d'une série statistique par intervalle de valeur selon des critères justifiables **afin d'en améliorer la lecture**.
 
 L'ensemble des classes (intervalles de valeurs) créé forme ainsi une partition de toutes les valeurs possibles de la variable.
 
 Exemple :\
 Il est par exemple possible de discrétiser les valeurs d'un variable s’échelonnant de 1 à 25, en construisant les classes suivantes : \[min à 5\] - \[6 à 10\] - \[11 à 15\] - \[16 à 20\] - \[21 à max\]
+
 :::
 
 ### Normaliser une distribution
 
 ::: div_voc
+
 **La normalisation d'une (ou plusieurs) série(s) de données est nécessaire quand l'incompatibilité des unités de mesures entre les variables peut affecter les résultats** sans apporter d'interprétations claires. Elle permet d'ajuster une série (vecteur) de valeurs suivant une fonction de transformation **pour les rendre comparables** avec quelques points de référence spécifiques.
 
 Deux exemple de normalisation :
@@ -1761,7 +1768,7 @@ Comment sont nommées les individus et les variables ?\
 
 Dans un premier temps, nous utiliserons des données mises à disposition par le **package** [questionr]{.package}, qui contient des variables qualitatives. **Installez** ce package, puis **chargez la librairie et les données associées** "*`hdv2003`*" :
 
-```{r,eval=TRUE}
+```{r inst_questionr, eval=TRUE}
 # install.packages("questionr")
 library(questionr)
 
@@ -1771,7 +1778,7 @@ data(hdv2003)
 
 **Prenez quelques minutes pour explorer ce tableau de données**. Vous pouvez utiliser l'interface Rstudio, mais également un certain nombre de fonctions primitives :
 
-```{r eval=FALSE}
+```{r memo_explo_data, eval=FALSE}
 
 # Quelques exemple
 View()
@@ -1796,7 +1803,7 @@ Lorsque l'on étudie une variable, on s’intéresse rapidement à **la distribu
 
 Utilisez les fonctions [table()]{.fonction} ou [prop.table()]{.fonction} :
 
-```{r}
+```{r conting}
 
 # Nb d'individus par modalité
 table(hdv2003$occup)
@@ -1808,7 +1815,7 @@ prop.table(table(hdv2003$occup))
 
 Pour **représenter graphiquement votre table de fréquence** :
 
-```{r}
+```{r rcolbrw}
 
 # Utilisation d'une librairie de palettes de couleur
 # install.packages("RColorBrewer")
@@ -1827,7 +1834,7 @@ Pour faciliter l'exploration de la distribution d'une variable quantitative, **i
 
 Dans l'exemple ci-dessous, nous utilisons la variable quantitative `hp` du dataframe `mtcars` :
 
-```{r}
+```{r hist_discr}
 
 # Pour représenter la distribution d'une série statistique sans la discrétiser préalablement -> hist()
 hist(mtcars$hp, breaks=12, probability = TRUE)
@@ -1842,7 +1849,7 @@ A noter que **le mode** peut être également calculé pour les variables **qual
 
 #### Moyenne
 
-```{r}
+```{r vc_mean}
 
 mean(mtcars$hp)
 
@@ -1850,7 +1857,7 @@ mean(mtcars$hp)
 
 #### Médiane
 
-```{r}
+```{r vc_med}
 
 median(mtcars$hp)
 
@@ -1858,7 +1865,7 @@ median(mtcars$hp)
 
 #### Mode
 
-```{r}
+```{r vc_conting}
 
 # Mode = Valeurs qui a la fréquence la plus élévée
 result <-  as.data.frame(table(mtcars$hp))
@@ -1875,7 +1882,7 @@ Les **paramètres de dispersion absolue** se calculent uniquement sur les **vari
 
 #### Minimum
 
-```{r}
+```{r vc_min}
 
 min(mtcars$hp)
 
@@ -1883,7 +1890,7 @@ min(mtcars$hp)
 
 #### Maximum
 
-```{r}
+```{r vc_max}
 
 max(mtcars$hp)
 
@@ -1891,14 +1898,14 @@ max(mtcars$hp)
 
 #### Amplitude (étendue)
 
-```{r}
+```{r vc_amp}
 
 max(mtcars$hp) - min(mtcars$hp)
 ```
 
 #### Quartiles
 
-```{r}
+```{r vc_quartiles}
 
 quantile(mtcars$hp)
 
@@ -1906,33 +1913,33 @@ quantile(mtcars$hp)
 
 #### Quartiles, Moyenne et NA's
 
-```{r}
+```{r vc_summary}
 
 summary(mtcars$hp)
 ```
 
 #### Intervalle inter-quartile (Q3 - Q1)
 
-```{r}
+```{r vc_amp_sum}
 
 summary(mtcars$hp)[5] - summary(mtcars$hp)[2]
 ```
 
 #### Variance
 
-```{r}
+```{r vc_var}
 var(mtcars$hp)
 ```
 
 #### Écart-type
 
-```{r}
+```{r vc_sd}
 sd(mtcars$hp) 
 ```
 
 #### Coefficient de variation (en %) -
 
-```{r}
+```{r vc_sd_pct}
 # = Ecart-type/moyenne * 100
 sd(mtcars$hp) / mean(mtcars$hp) *100
 ```
@@ -1943,7 +1950,7 @@ sd(mtcars$hp) / mean(mtcars$hp) *100
 
 Ci-dessous, quelques **formes classiques de distribution statistique** :
 
-![](figures/forme_distribution_2.png?style=centerme)
+![](figures/forme_distribution_2.png)
 
 ::: div_voc
 **En fonction du profil d'une distribution**, on utilise **différentes méthodes de discrétisation :**
@@ -1969,29 +1976,35 @@ Les classes sont déterminées selon une **fraction d’écart-type par rapport 
 [Progression géométrique]{.div_voc_title} Les classes sont **découpées selon une progression géométrique**. -\> A privilégier pour les **distributions dissymétriques**.
 
 [Progression arithmétique]{.div_voc_title} Les classes sont établies **selon une progression arithmétique**. -\> A privilégier pour les **distributions dissymétriques**.
-:::
 
+:::
+\
 ::: {.callout-important title="Important !"}
+
 **Le choix d'un méthode de discrétisation et du nombre de classes à un impact très important sur l'interprétation de sa représentation visuelle. Cette [application](http://mappemonde.mgm.fr/geovisu/119/" onclick="window.open(this.href); return false;) [@geovisujegou] en est une belle démonstration.
+
 :::
 
-Pour discrétiser une série statistique, vous pouvez utiliser la **fonction** \* [mf_get_breaks()]{.fonction}, du package [mapsf]{.package} [@mapsf].
+Pour discrétiser une série statistique, on peut mobiliser la fonction [classIntervals()]{.fonction} du package [classInt]{.package}.
 
-```{r, include=FALSE }
-# install.packages("mapsf")
-library(mapsf)
+```{r discr_mapsf, include=FALSE }
+# install.packages("classInt")
+library(classInt)
 
-ma_discretisation <- mf_get_breaks(mtcars$hp, breaks = "quantile", nbreaks = 6)
+ma_discretisation <- classIntervals(var = mtcars$hp,
+                                    n = "6",
+                                    style = "quantile")
+
 ma_discretisation
 
 ```
 
-Vous pouvez choisir différentes méthodes de discrétisation avec l'argument '*breaks*'.
+Vous pouvez choisir différentes méthodes de discrétisation avec l'argument '*style*'.
 
 ```{r, eval = FALSE}
 
 # Pour accéder à la documentation de la fonction :
-?mf_get_breaks
+?classIntervals
 
 ```
 
@@ -2000,11 +2013,11 @@ Pour **enregistrer l'appartenance des individus aux différentes classes en fonc
 ```{r, eval = TRUE}
 
 # Calcul des borne de classe
-ma_discretisation <- mf_get_breaks(mtcars$hp, breaks = "sd")
+ma_discretisation <- classIntervals(mtcars$hp, style = "sd")
 
 # Utiliser la fonction cut()
 mtcars$hp_classe <- cut(mtcars$hp, 
-                        breaks = ma_discretisation, 
+                        breaks = ma_discretisation$brks, 
                         include.lowest = TRUE, 
                         right = TRUE)
 
@@ -2013,7 +2026,7 @@ mtcars$hp_classe
 
 # Préciser des nom de classe avec l'argument labels
 mtcars$hp_classe <- cut(mtcars$hp, 
-                        breaks = ma_discretisation, 
+                        breaks = ma_discretisation$brks, 
                         labels =  c("A","B","C","D","E","F","G","H","I"), 
                         include.lowest = TRUE, 
                         right = TRUE)
@@ -2040,13 +2053,13 @@ table(mtcars$hp_classe)
 hist(mtcars$hp, breaks = 15, col = "grey", main = "Distribution de la variable hp")
 
 # Ajouter la moyenne
-abline(v=mean(mtcars$hp, na.rm=TRUE), col = "red", lwd = 4 , lty = 2 )
+abline(v = mean(mtcars$hp, na.rm = TRUE), col = "red", lwd = 4 , lty = 2 )
 
 # Ajouter les bornes des classes
-abline(v=ma_discretisation,col="blue", lwd = 2, lty = 2)
+abline(v = ma_discretisation$brks, col = "blue", lwd = 2, lty = 2)
 
 # Ajouter une légende
-legend("topright", c("moyenne", "borne de classe"), fill= c(col="red", col="blue"), cex=0.8)
+legend("topright", c("moyenne", "borne de classe"), fill = c(col = "red", col = "blue"), cex = 0.8)
 
 # Affichage de chaque individu
 rug(mtcars$hp)
@@ -2055,13 +2068,13 @@ rug(mtcars$hp)
 
 #### La boite à moustaches (boxplot) :
 
-![](figures/boxplot.png?style=centerme){width="350px"}
+![](figures/boxplot.png){width="350px"}
 
 ```{r}
 
 # Boite à moustache
 boxplot(mtcars$qsec,
-        main = "Distribution variable quantitative continue 'qsec'",
+        main = "Distribution variable quantitative continue 'qsec'", 
         xlab = "qsec",
         col = "orange",
         border = "brown",
@@ -2075,9 +2088,10 @@ rug(mtcars$qsec)
 
 #### La carte
 
-**La carte permet d'explorer la répartition spatiale d'une distribution d'une variable géographique**. Plusieurs packages permettent de faire des carte avec R, **le package** [mapsf]{.package} **est spécialisé dans la production de cartes thématiques et statistiques**.
+**La carte permet d'explorer la répartition spatiale d'une distribution d'une variable géographique**. Plusieurs packages permettent de faire des carte avec R, **le package** [mapsf]{.package} **est spécialisé dans la production de cartes thématiques et statistiques** [@mapsf].
 
-\![figures/carto.png\]{width = 50%} *Source : https://riatelab.github.io/mapsf/index.html*
+![figures/carto.png]{width = 50%}  
+*Source : https://riatelab.github.io/mapsf/index.html*
 
 **Un exemple d'utilisation...**
 
@@ -2090,10 +2104,11 @@ library(sf)
 mtq <- st_read("data/martinique.shp")
 
 # Import des données de recensement
-mtq_data <- read.csv("data/INSEE_COM_972.csv", header=TRUE, sep=",", stringsAsFactors=FALSE)
+mtq_data <- read.csv("data/INSEE_COM_972.csv", header = TRUE,
+                     sep = ",", stringsAsFactors = FALSE)
 
 # Jointure shapefile - data
-mtq <-  merge(mtq , mtq_data , by.x="INSEE_COM" , by.y="CODGEO")
+mtq <-  merge(mtq , mtq_data , by.x = "INSEE_COM" , by.y = "CODGEO")
 
 # Calcul d'une variable quantitative relative (Densité de population)
 mtq$POPDENS <- 1e6 * mtq$P16_POP / st_area(mtq)
@@ -2313,7 +2328,7 @@ tab.chi2$expected
 
 **Pour correctement interpréter le résultat du test du χ², il est important de comprendre comment ces différentes valeurs sont calculées...**
 
---\> [Le calcul du χ² et du degré de liberté ?](https://github.com/HuguesPecout/Initiation_R_stats/raw/main/Khi2.xls)\
+--\> [Le calcul du χ² et du degré de liberté ?](https://github.com/HuguesPecout/Initiation_R_stats/raw/main/data/Khi2.xls)\
 --\> Le calcul de la valeur p ([table de la loi du χ² ?](https://jpcmanson.wordpress.com/2015/08/13/statistiques-les-omega-3-previennent-ils-lapparition-des-troubles-psychiatriques/khi2/))
 
 Il est possible d'**affiner l’interprétation du test en déterminant dans quelle "case" l’écart à l’indépendance est le plus significatif en utilisant les résidus du test**. Ceux-ci sont notamment affichables avec la fonction [chisq.residuals()]{.fonction} de la librairie [**questionr**]{.package} :
@@ -2383,7 +2398,7 @@ mosaicplot(qualif ~ sport,
 ::: exercice
 Dans le le tableau ci-dessous figurent en colonnes le nombre de réponses à la question "***Faites-vous faire des recherches sur internet à vos élèves ?***" posée à 179 enseignants de collèges en France :
 
-![](figures/chi2.png?style=centerme)
+![](figures/chi2.png)
 
 1)  **Construire le `data.frame` dans R correspondant à ce tableau de contingence **.
 
@@ -2414,101 +2429,6 @@ barplot(cprop(t(as.matrix(df)))[1:2,1:2])
 5)  **Représentez graphiquement les résidus de Pearson du test du χ²** avec la fonction [mosaicplot()]{.fonction}.
 :::
 
-## Qualitatif vs Quantitatif
-
-Il existe plusieurs méthodes statistiques pour mesurer la dépendance entre une variable qualitative et une variable quantitative, comme le test **t de student** ou **l'analyse de variance (ANOVA)**. Cependant, **ces méthodes ne seront pas détaillé dans ce cours**...
-
-Exemple de calcul du test t de student avec R ([t.test()]{.fonction}) :
-
-```{r fig.width=5}
-
-# Nécessite une variable qualitative binaire (deux modalités max)
-test.student <- t.test(age ~ sport, data = hdv2003)
-test.student
-```
-
-Exemple d'une analyse de variance avec R ([aov()]{.fonction}) :
-
-```{r fig.width=5}
-
-# Nécessite une variable qualitative binaire (deux modalités max)
-anova <- aov(age ~ sport, data=hdv2003)
-anova
-```
-
-### Comparaison d’indicateurs
-
-**Comparer certains indicateurs (moyenne, médiane...) d’une variable quantitative selon les modalités d’une variable qualitative** permet de mesurer des différence entre plusieurs sous-population.
-
-Dans un premier temps, **ventilez votre population en autant de sous-populations qu’il y a de modalités dans la variable qualitative**. Pour cela, utilisez la fonction [**subset()**]{.fonction} :
-
-```{r}
-
-# On crée deux tables de sous-population
-
-# Sous-population pratiquant du sport :
-hdv2003_sport <- subset(hdv2003, sport == "Oui")
-# Sous-population non-pratiquante :
-hdv2003_nonsport <- subset(hdv2003, sport == "Non")
-
-```
-
-```{r}
-
-# Moyenne d'age des pratiquants
-mean(hdv2003_sport$age)
-
-```
-
-```{r}
-
-# Moyenne d'age des non-pratiquants
-mean(hdv2003_nonsport$age)
-
-```
-
-Vous pouvez également utiliser la fonction [tapply()]{.fonction}, qui prend en paramètre une variable quantitative, qualitative et une fonction, puis applique automatiquement la fonction aux valeurs de la variables quantitative pour chaque niveau de la variable qualitative. Ex :
-
-```{r}
-
-# Fonction tapply()
-tapply(hdv2003$age, hdv2003$sport, mean)
-
-```
-
-### Représentations graphiques
-
-Il est possible de **résumer visuellement la distribution statistique d’une variable quantitative autour de différentes mesures de centralité et de dispersion en utilisant la "boîte à moustache" (*boxplot*).**
-
-**La fonction** [boxplot()]{.fonction} **représente la distribution de la variable quantitative pour chacune des modalités de la variable qualitative :**
-
-```{r}
-
-# Fonction mosaicplot()
-boxplot(hdv2003$heures.tv ~ hdv2003$qualif, 
-        col="firebrick3",
-        ylab="heures TV",
-        las=2)
-
-```
-
-**Dans le cas où une variable qualitative ne présente que deux modalités**, la représentation côte à côte des deux distributions permet d'observer facilement leurs différences :
-
-```{r}
-
-# Construction du tableau croisé, en format data.frame
-tab <- as.data.frame(lprop(table(hdv2003$sport, hdv2003$age)))
-colnames(tab) <- c("sport", "age", "Freq")
-tab <-  subset(tab , !(sport %in% "Ensemble"))
-
-# Utilisation de la fonction ggplot()
-library(ggplot2)
-ggplot(tab , aes(x = age, y = Freq, fill = factor(sport))) +
-  geom_bar(stat = "identity", position = position_dodge(), las=2) +
-  ylab("Pourcentage") +
-  scale_x_discrete(breaks=seq(17,97,3), labels = seq(17,97,3)) +
-  scale_y_continuous(limit=c(0,3.3))
-```
 
 ## Deux variables quantitatives
 
@@ -2711,6 +2631,105 @@ head(women)
 
 9)  **Afficher la droite de régression** du modèle sur le graphique.
 :::
+
+
+## Qualitatif vs Quantitatif
+
+Il existe plusieurs méthodes statistiques pour mesurer la dépendance entre une variable qualitative et une variable quantitative, comme le test **t de student** ou **l'analyse de variance (ANOVA)**. Cependant, **ces méthodes ne seront pas détaillé dans ce cours**...
+
+Exemple de calcul du test t de student avec R ([t.test()]{.fonction}) :
+
+```{r fig.width=5}
+
+# Nécessite une variable qualitative binaire (deux modalités max)
+test.student <- t.test(age ~ sport, data = hdv2003)
+test.student
+```
+
+Exemple d'une analyse de variance avec R ([aov()]{.fonction}) :
+
+```{r fig.width=5}
+
+# Nécessite une variable qualitative binaire (deux modalités max)
+anova <- aov(age ~ sport, data=hdv2003)
+anova
+```
+
+### Comparaison d’indicateurs
+
+**Comparer certains indicateurs (moyenne, médiane...) d’une variable quantitative selon les modalités d’une variable qualitative** permet de mesurer des différence entre plusieurs sous-population.
+
+Dans un premier temps, **ventilez votre population en autant de sous-populations qu’il y a de modalités dans la variable qualitative**. Pour cela, utilisez la fonction [**subset()**]{.fonction} :
+
+```{r}
+
+# On crée deux tables de sous-population
+
+# Sous-population pratiquant du sport :
+hdv2003_sport <- subset(hdv2003, sport == "Oui")
+# Sous-population non-pratiquante :
+hdv2003_nonsport <- subset(hdv2003, sport == "Non")
+
+```
+
+```{r}
+
+# Moyenne d'age des pratiquants
+mean(hdv2003_sport$age)
+
+```
+
+```{r}
+
+# Moyenne d'age des non-pratiquants
+mean(hdv2003_nonsport$age)
+
+```
+
+Vous pouvez également utiliser la fonction [tapply()]{.fonction}, qui prend en paramètre une variable quantitative, qualitative et une fonction, puis applique automatiquement la fonction aux valeurs de la variables quantitative pour chaque niveau de la variable qualitative. Ex :
+
+```{r}
+
+# Fonction tapply()
+tapply(hdv2003$age, hdv2003$sport, mean)
+
+```
+
+### Représentations graphiques
+
+Il est possible de **résumer visuellement la distribution statistique d’une variable quantitative autour de différentes mesures de centralité et de dispersion en utilisant la "boîte à moustache" (*boxplot*).**
+
+**La fonction** [boxplot()]{.fonction} **représente la distribution de la variable quantitative pour chacune des modalités de la variable qualitative :**
+
+```{r}
+
+# Fonction mosaicplot()
+boxplot(hdv2003$heures.tv ~ hdv2003$qualif, 
+        col="firebrick3",
+        ylab="heures TV",
+        las=2)
+
+```
+
+**Dans le cas où une variable qualitative ne présente que deux modalités**, la représentation côte à côte des deux distributions permet d'observer facilement leurs différences :
+
+```{r}
+
+# Construction du tableau croisé, en format data.frame
+tab <- as.data.frame(lprop(table(hdv2003$sport, hdv2003$age)))
+colnames(tab) <- c("sport", "age", "Freq")
+tab <-  subset(tab , !(sport %in% "Ensemble"))
+
+# Utilisation de la fonction ggplot()
+library(ggplot2)
+ggplot(tab , aes(x = age, y = Freq, fill = factor(sport))) +
+  geom_bar(stat = "identity", position = position_dodge(), las=2) +
+  ylab("Pourcentage") +
+  scale_x_discrete(breaks=seq(17,97,3), labels = seq(17,97,3)) +
+  scale_y_continuous(limit=c(0,3.3))
+```
+
+
 
 # Sources & références
 
