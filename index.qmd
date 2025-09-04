@@ -2398,7 +2398,7 @@ x$residuals
 
 ```
 
- **Convertissez les valeurs en fréquence relative** (en ligne, colonne et total).
+2)  **Convertissez les valeurs en fréquence relative** (en ligne, colonne et total).
 
 3)  **Représenter graphiquement les fréquence relatives** à l'aide de la fonction [barplot()]{.fonction}.
 
